@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="feedback-section">
+  <div class="container">
+    <h2>Sentiment Analysis Results</h2>
+    <canvas id="sentimentChart" width="400" height="200"></canvas>
+  </div>
+</section>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const ctx = document.getElementById('sentimentChart').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Positive', 'Neutral', 'Negative'],
+        datasets: [{
+            label: 'Feedback Count',
+            data: [
+              {{ sentiments['Positive'] }},
+              {{ sentiments['Neutral'] }},
+              {{ sentiments['Negative'] }}
+            ],
+            backgroundColor: [
+              'rgba(75, 192, 192, 0.6)',
+              'rgba(201, 203, 207, 0.6)',
+              'rgba(255, 99, 132, 0.6)'
+            ],
+            borderColor: [
+              'rgba(75, 192, 192, 1)',
+              'rgba(201, 203, 207, 1)',
+              'rgba(255, 99, 132, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                precision: 0
+            }
+        }
+    }
+});
+</script>
+{% endblock %}
