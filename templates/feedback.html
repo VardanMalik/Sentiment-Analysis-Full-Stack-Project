@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="feedback-section">
+  <div class="container">
+    <h2>Customer Feedback</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="flash {{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('feedback') }}" method="post" class="feedback-form">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your Name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Your Email" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Feedback</label>
+        <textarea id="message" name="message" placeholder="Your Feedback" required></textarea>
+      </div>
+      <button type="submit" class="btn">Submit Feedback</button>
+    </form>
+
+    <div class="feedback-list">
+      <h3>Recent Feedback</h3>
+      {% for feedback in feedback_list %}
+      <div class="feedback-item">
+        <h4>{{ feedback.name }}</h4>
+        <p>{{ feedback.message }}</p>
+      </div>
+      {% else %}
+      <p>No feedback submitted yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-content">
+    <h1>Welcome to Elite Gym</h1>
+    <p>Transform your life with our state-of-the-art equipment and top trainers.</p>
+    <a href="{{ url_for('feedback') }}" class="btn">Give Feedback</a>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <div class="container">
+    <h2>About Us</h2>
+    <p>At Elite Gym, we are committed to delivering the best fitness experience with modern facilities and dedicated trainers.</p>
+  </div>
+</section>
+
+<section id="classes" class="classes">
+  <div class="container">
+    <h2>Classes</h2>
+    <div class="class-list">
+      <div class="class-item">
+        <h3>Yoga</h3>
+        <p>Relax and rejuvenate with our yoga sessions.</p>
+      </div>
+      <div class="class-item">
+        <h3>CrossFit</h3>
+        <p>Boost your strength and endurance with CrossFit training.</p>
+      </div>
+      <div class="class-item">
+        <h3>Zumba</h3>
+        <p>Get moving with our high-energy dance workouts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
