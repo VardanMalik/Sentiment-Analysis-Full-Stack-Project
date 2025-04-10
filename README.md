@@ -31,25 +31,6 @@ A modern gym website with a built-in feedback system that collects user reviews 
 
 ---
 
-## 📂 Project Structure
-
-gym-website/
-├── app.py
-├── feedback.csv               # Stores submitted feedback
-├── static/                    # CSS, JS, images
-│   ├── css/style.css
-│   ├── js/script.js
-│   └── images/
-├── templates/                 # HTML files
-│   ├── base.html
-│   ├── index.html
-│   ├── feedback.html
-│   └── sentiment.html
-├── venv/                      # Python virtual environment (optional)
-└── README.md
-
----
-
 ## 🚀 How to Run Locally
 
 ### 1. Clone this repo
