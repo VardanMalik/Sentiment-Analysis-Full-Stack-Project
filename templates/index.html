@@ -1,36 +1,72 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!-- Hero Section -->
 <section class="hero">
   <div class="hero-content">
-    <h1>Welcome to Elite Gym</h1>
-    <p>Transform your life with our state-of-the-art equipment and top trainers.</p>
+    <h1>Welcome to Vardans's Gym</h1>
+    <p>Elevate your fitness journey with state-of-the-art equipment and professional trainers.</p>
     <a href="{{ url_for('feedback') }}" class="btn">Give Feedback</a>
   </div>
 </section>
 
+<!-- About Section -->
 <section id="about" class="about">
   <div class="container">
     <h2>About Us</h2>
-    <p>At Elite Gym, we are committed to delivering the best fitness experience with modern facilities and dedicated trainers.</p>
+    <p>At Vardans's Gym, we are dedicated to providing top-notch fitness facilities, personalized training, and a community-driven environment. Our mission is to empower you to achieve your fitness goals with the support of expert trainers and a motivating atmosphere.</p>
   </div>
 </section>
 
+<!-- Classes Section -->
 <section id="classes" class="classes">
   <div class="container">
-    <h2>Classes</h2>
+    <h2>Our Classes</h2>
     <div class="class-list">
+      <!-- Yoga Class -->
       <div class="class-item">
+        <img src="{{ url_for('static', filename='images/yoga.jpg') }}" alt="Yoga Class">
         <h3>Yoga</h3>
-        <p>Relax and rejuvenate with our yoga sessions.</p>
+        <p>Experience inner peace and flexibility with our expert-led yoga classes. Suitable for all levels, our sessions focus on balance, breathing, and mindfulness.</p>
+        <p><strong>Schedule:</strong> Mon, Wed, Fri - 6 AM &amp; 7 PM</p>
       </div>
+      <!-- CrossFit Class -->
       <div class="class-item">
+        <img src="{{ url_for('static', filename='images/crossfit.jpg') }}" alt="CrossFit Training">
         <h3>CrossFit</h3>
-        <p>Boost your strength and endurance with CrossFit training.</p>
+        <p>Boost your strength and endurance with high-intensity CrossFit training. Our sessions combine cardio, weightlifting, and functional movements tailored to your fitness level.</p>
+        <p><strong>Schedule:</strong> Tue, Thu - 5 AM &amp; 6 PM</p>
       </div>
+      <!-- Zumba Class -->
       <div class="class-item">
+        <img src="{{ url_for('static', filename='images/zumba.jpg') }}" alt="Zumba Dance">
         <h3>Zumba</h3>
-        <p>Get moving with our high-energy dance workouts.</p>
+        <p>Get energized with our vibrant Zumba dance classes. Burn calories and have fun with our high-energy routines mixing Latin and international music.</p>
+        <p><strong>Schedule:</strong> Sat, Sun - 10 AM</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" class="pricing">
+  <div class="container">
+    <h2>Pricing Plans</h2>
+    <div class="pricing-plans">
+      <div class="pricing-plan">
+        <h3>Basic Membership</h3>
+        <p>Gain access to our gym facilities and join group classes.</p>
+        <p class="price">$29.99/month</p>
+      </div>
+      <div class="pricing-plan">
+        <h3>Premium Membership</h3>
+        <p>Enjoy unlimited gym access, all classes, and 2 personal training sessions per month.</p>
+        <p class="price">$49.99/month</p>
+      </div>
+      <div class="pricing-plan">
+        <h3>Drop-In Pass</h3>
+        <p>Perfect for visitors. Enjoy a single session at our gym.</p>
+        <p class="price">$15/session</p>
       </div>
     </div>
   </div>
