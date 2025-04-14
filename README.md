@@ -1,12 +1,12 @@
-# 🏋️ Vardan's Gym Website + Sentiment Feedback System
+# 🏋️ Vardan's Gym Feedback Website + Sentiment Dashboard
 
-A modern gym website with a built-in feedback system that collects user reviews and performs real-time sentiment analysis using NLTK's VADER tool. This platform helps gym owners understand customer satisfaction through automated insights.
+A modern Flask-based gym website that lets users leave feedback and automatically analyzes sentiment using NLTK’s VADER tool. Designed with Bootstrap and MariaDB for a beautiful, robust, and production-ready experience. Admins can view analytics, delete feedback, and securely manage the dashboard.
 
 ---
 
 ## 📸 Screenshots
 
-> _Live demo of the project UI and dashboard_
+> _Demo of the project UI and dashboard_
 
 - 🏠 Home Page  
   ![Home Page](screenshots/home.png)
@@ -14,20 +14,29 @@ A modern gym website with a built-in feedback system that collects user reviews 
 - 📝 Feedback Form  
   ![Feedback Form](screenshots/feedback-form.png)
 
-- 📊 Sentiment Dashboard  
+- 🔐 Admin Login  
+  ![Admin Login](screenshots/admin-login.png)
+
+- 📊 Admin Dashboard  
   ![Sentiment Dashboard](screenshots/sentiment-analysis.png)
 
 ---
 
 ## 💡 Features
 
-✅ Clean, responsive gym landing page  
-✅ Feedback form with name, email, and message fields  
-✅ Feedback is saved in a CSV file (`feedback.csv`)  
-✅ Real-time sentiment analysis using VADER  
-✅ Chart.js bar chart shows sentiment breakdown  
-✅ Flash messages for form validation  
-✅ Sentiment dashboard accessible at `/sentiment`
+✅ Responsive gym website using **Bootstrap**  
+✅ Feedback form with `name`, `email`, `rating`, and `message`  
+✅ Sentiment analysis with **NLTK VADER**  
+✅ Feedback stored in **MariaDB (MySQL)** instead of CSV  
+✅ Admin login system with session-based protection  
+✅ **Beautiful charts** using Chart.js:  
+  • Doughnut chart for sentiment  
+  • Bar chart for star ratings  
+✅ Admin can **delete feedback entries**  
+✅ Displays **total feedback count**  
+✅ Shows **timestamp** (date) of each feedback  
+✅ Flash messages for success & validation  
+✅ Hosted live at: [🔗 vardanmalik.pythonanywhere.com](https://vardanmalik.pythonanywhere.com/)
 
 ---
 
@@ -63,7 +72,15 @@ python3
 >>> exit()
 ```
 
-### 4. Run the app
+### 4. Set Up the Database
+
+> _Ensure MariaDB is running and create the database manually:_
+
+```sql
+CREATE DATABASE gym_feedback;
+```
+
+### 5. Run the app
 
 ```bash
 python3 app.py
@@ -73,39 +90,49 @@ python3 app.py
 
 ---
 
+## 🔐 Admin Credentials
+
+> _Default (for demo purposes – change in app.py)_
+
+```
+Username: admin
+Password: admin123
+```
+---
+
 ## 🔮 What Can Be Improved in the Future
 
-- 🔐 **Password-Protected Admin Page**  
-  Restrict access to the sentiment dashboard `/sentiment` using Flask login or a hardcoded password.
+- 🌍 OAuth-based login (Google Admin Login)
 
-- 📤 **Export Sentiment Results**  
-  Allow the admin to export analysis data as CSV or PDF reports.
+- 📅 Filter feedback by date range (monthly reports)
 
-- 📅 **Filter by Date**  
-  Let the admin view feedback from specific weeks/months.
+- 📤 Export data as CSV or PDF
 
-- 🌐 **Deploy Online**  
-  Host the website using Render, Heroku, or Vercel for live access.
+- 🔔 Notifications for new feedback
 
-- ✨ **AI-Based Suggestions**  
-  Automatically suggest actions based on negative feedback trends.
+- ✨ AI-driven insights and suggestions
+
+- 📱 Mobile-first optimization
 
 ---
 
 ## 🧰 Tech Stack
 
 - Python + Flask  
+- HTML5 + CSS3 + Bootstrap
 - NLTK (VADER Sentiment Analyzer)  
-- Chart.js (for visualization)  
-- HTML5 + CSS3  
+- Chart.js (for visualization)    
 - JavaScript  
-- SQLite / CSV for data storage
+- MariaDB (via PyMySQL)
+- Jinja2 Templating
 
 ---
 
 ## ⚙️ Requirements
 
 - Python 3.10+  
+- MySQL or MariaDB installed locally
+- Internet access (for VADER lexicon & Chart.js)
 - `nltk`, `flask`, `pandas`
 
 ---
