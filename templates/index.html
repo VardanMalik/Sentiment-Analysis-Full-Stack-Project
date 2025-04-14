@@ -2,71 +2,117 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero">
-  <div class="hero-content">
-    <h1>Welcome to Vardans's Gym</h1>
-    <p>Elevate your fitness journey with state-of-the-art equipment and professional trainers.</p>
-    <a href="{{ url_for('feedback') }}" class="btn">Give Feedback</a>
+<section class="hero text-white text-center d-flex align-items-center justify-content-center"
+  style="background-image: url('{{ url_for('static', filename='images/gym-hero.jpg') }}'); height: 70vh; background-size: cover;">
+  <div class="bg-dark bg-opacity-50 p-5 rounded">
+    <h1 class="display-4">Welcome to Vardan's Gym</h1>
+    <p class="lead">Train smart, feel strong.</p>
+    <a href="{{ url_for('feedback') }}" class="btn btn-warning mt-3">Give Feedback</a>
   </div>
 </section>
 
-<!-- About Section -->
-<section id="about" class="about">
-  <div class="container">
+<!-- ⭐ Rating and Top Feedback Section -->
+<section class="container py-5 text-center">
+  <h2>⭐ Average Rating: {{ avg_rating }}/5</h2>
+  <h4 class="mt-4">Top Positive Feedback</h4>
+  <div class="row justify-content-center mt-3">
+    {% for fb in top_feedback %}
+    <div class="col-md-6">
+      <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ fb.name }}</h5>
+          <h6 class="card-subtitle text-muted">{{ fb.rating }} ⭐</h6>
+          <p class="card-text">{{ fb.message }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ✅ About Section -->
+<section id="about" class="py-5 bg-light">
+  <div class="container text-center">
     <h2>About Us</h2>
-    <p>At Vardans's Gym, we are dedicated to providing top-notch fitness facilities, personalized training, and a community-driven environment. Our mission is to empower you to achieve your fitness goals with the support of expert trainers and a motivating atmosphere.</p>
+    <p class="lead mt-3">At Vardan's Gym, we are dedicated to providing top-notch fitness facilities, personalized
+      training, and a community-driven environment. Our mission is to empower you to achieve your fitness goals with the
+      support of expert trainers and a motivating atmosphere.</p>
   </div>
 </section>
 
-<!-- Classes Section -->
-<section id="classes" class="classes">
-  <div class="container">
+<!-- ✅ Classes Section -->
+<section id="classes" class="py-5">
+  <div class="container text-center">
     <h2>Our Classes</h2>
-    <div class="class-list">
-      <!-- Yoga Class -->
-      <div class="class-item">
-        <img src="{{ url_for('static', filename='images/yoga.jpg') }}" alt="Yoga Class">
-        <h3>Yoga</h3>
-        <p>Experience inner peace and flexibility with our expert-led yoga classes. Suitable for all levels, our sessions focus on balance, breathing, and mindfulness.</p>
-        <p><strong>Schedule:</strong> Mon, Wed, Fri - 6 AM &amp; 7 PM</p>
+    <div class="row mt-4">
+      <!-- Yoga -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="{{ url_for('static', filename='images/yoga.jpg') }}" class="card-img-top" alt="Yoga">
+          <div class="card-body">
+            <h5 class="card-title">Yoga</h5>
+            <p class="card-text">Experience inner peace and flexibility with our expert-led yoga classes. Suitable for all levels, focusing on balance and mindfulness.</p>
+            <p class="text-muted"><strong>Schedule:</strong> Mon, Wed, Fri - 6 AM & 7 PM</p>
+          </div>
+        </div>
       </div>
-      <!-- CrossFit Class -->
-      <div class="class-item">
-        <img src="{{ url_for('static', filename='images/crossfit.jpg') }}" alt="CrossFit Training">
-        <h3>CrossFit</h3>
-        <p>Boost your strength and endurance with high-intensity CrossFit training. Our sessions combine cardio, weightlifting, and functional movements tailored to your fitness level.</p>
-        <p><strong>Schedule:</strong> Tue, Thu - 5 AM &amp; 6 PM</p>
+      <!-- CrossFit -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="{{ url_for('static', filename='images/crossfit.jpg') }}" class="card-img-top" alt="CrossFit">
+          <div class="card-body">
+            <h5 class="card-title">CrossFit</h5>
+            <p class="card-text">Boost your strength and endurance with high-intensity CrossFit. Cardio, weightlifting, and functional training combined.</p>
+            <p class="text-muted"><strong>Schedule:</strong> Tue, Thu - 5 AM & 6 PM</p>
+          </div>
+        </div>
       </div>
-      <!-- Zumba Class -->
-      <div class="class-item">
-        <img src="{{ url_for('static', filename='images/zumba.jpg') }}" alt="Zumba Dance">
-        <h3>Zumba</h3>
-        <p>Get energized with our vibrant Zumba dance classes. Burn calories and have fun with our high-energy routines mixing Latin and international music.</p>
-        <p><strong>Schedule:</strong> Sat, Sun - 10 AM</p>
+      <!-- Zumba -->
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <img src="{{ url_for('static', filename='images/zumba.jpg') }}" class="card-img-top" alt="Zumba">
+          <div class="card-body">
+            <h5 class="card-title">Zumba</h5>
+            <p class="card-text">Get energized with vibrant Zumba dance classes. Burn calories and have fun with Latin and global music beats.</p>
+            <p class="text-muted"><strong>Schedule:</strong> Sat, Sun - 10 AM</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Pricing Section -->
-<section id="pricing" class="pricing">
-  <div class="container">
+<!-- ✅ Pricing Section -->
+<section id="pricing" class="py-5 bg-light">
+  <div class="container text-center">
     <h2>Pricing Plans</h2>
-    <div class="pricing-plans">
-      <div class="pricing-plan">
-        <h3>Basic Membership</h3>
-        <p>Gain access to our gym facilities and join group classes.</p>
-        <p class="price">$29.99/month</p>
+    <div class="row mt-4">
+      <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title">Basic Membership</h4>
+            <p class="card-text">Access gym facilities and group classes.</p>
+            <p class="text-primary fw-bold">$29.99/month</p>
+          </div>
+        </div>
       </div>
-      <div class="pricing-plan">
-        <h3>Premium Membership</h3>
-        <p>Enjoy unlimited gym access, all classes, and 2 personal training sessions per month.</p>
-        <p class="price">$49.99/month</p>
+      <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title">Premium Membership</h4>
+            <p class="card-text">Unlimited gym access, all classes + 2 personal training sessions/month.</p>
+            <p class="text-primary fw-bold">$49.99/month</p>
+          </div>
+        </div>
       </div>
-      <div class="pricing-plan">
-        <h3>Drop-In Pass</h3>
-        <p>Perfect for visitors. Enjoy a single session at our gym.</p>
-        <p class="price">$15/session</p>
+      <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title">Drop-In Pass</h4>
+            <p class="card-text">Perfect for visitors. Enjoy a single session at our gym.</p>
+            <p class="text-primary fw-bold">$15/session</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

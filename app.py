@@ -1,72 +1,74 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-import csv
-import os
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func, desc
+from datetime import datetime
 import pandas as pd
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import os
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Change this for production
+app.secret_key = 'your_secret_key'
 
-FEEDBACK_FILE = 'feedback.csv'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:your_strong_password@localhost/gym_feedback'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 analyzer = SentimentIntensityAnalyzer()
 
-# Make sure feedback.csv exists and has headers
-if not os.path.exists(FEEDBACK_FILE):
-    with open(FEEDBACK_FILE, 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(['name', 'email', 'message'])
-
-# Helper function to read CSV into list of dicts
-def read_feedback():
-    with open(FEEDBACK_FILE, newline='') as file:
-        reader = csv.DictReader(file)
-        return list(reader)[::-1]  # Show latest first
+# Feedback Model
+class Feedback(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
+    sentiment = db.Column(db.String(20))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    avg_rating = db.session.query(func.avg(Feedback.rating)).scalar()
+    top_feedback = Feedback.query.filter_by(sentiment='Positive').order_by(desc(Feedback.rating)).limit(3).all()
+    return render_template('index.html', avg_rating=round(avg_rating or 0, 1), top_feedback=top_feedback)
 
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
     if request.method == 'POST':
-        name = request.form.get('name')
-        email = request.form.get('email')
-        message = request.form.get('message')
+        name = request.form['name']
+        email = request.form['email']
+        message = request.form['message']
+        rating = int(request.form['rating'])
 
-        if not name or not email or not message:
-            flash('All fields are required.', 'danger')
-            return redirect(url_for('feedback'))
-
-        with open(FEEDBACK_FILE, 'a', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow([name, email, message])
-
-        flash('Feedback submitted successfully!', 'success')
-        return redirect(url_for('feedback'))
-
-    feedback_list = read_feedback()
-    return render_template('feedback.html', feedback_list=feedback_list)
-
-@app.route('/sentiment')
-def sentiment():
-    try:
-        df = pd.read_csv(FEEDBACK_FILE)
-    except FileNotFoundError:
-        flash("No feedback found yet.", "danger")
-        return redirect(url_for('feedback'))
-
-    sentiments = {'Positive': 0, 'Neutral': 0, 'Negative': 0}
-
-    for message in df['message']:
         score = analyzer.polarity_scores(message)['compound']
         if score >= 0.05:
-            sentiments['Positive'] += 1
+            sentiment = 'Positive'
         elif score <= -0.05:
-            sentiments['Negative'] += 1
+            sentiment = 'Negative'
         else:
-            sentiments['Neutral'] += 1
+            sentiment = 'Neutral'
 
-    return render_template('sentiment.html', sentiments=sentiments)
+        entry = Feedback(name=name, email=email, message=message, rating=rating, sentiment=sentiment)
+        db.session.add(entry)
+        db.session.commit()
+
+        flash('Thank you for your feedback!', 'success')
+        return redirect(url_for('feedback'))
+
+    feedback_list = Feedback.query.order_by(Feedback.created_at.desc()).all()
+    return render_template('feedback.html', feedback_list=feedback_list)
+
+@app.route('/admin')
+def admin():
+    feedbacks = Feedback.query.all()
+    sentiment_counts = {
+        'Positive': Feedback.query.filter_by(sentiment='Positive').count(),
+        'Neutral': Feedback.query.filter_by(sentiment='Neutral').count(),
+        'Negative': Feedback.query.filter_by(sentiment='Negative').count(),
+    }
+    ratings = db.session.query(Feedback.rating, func.count(Feedback.rating)).group_by(Feedback.rating).all()
+    return render_template('admin.html', feedbacks=feedbacks, sentiments=sentiment_counts, ratings=ratings)
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
