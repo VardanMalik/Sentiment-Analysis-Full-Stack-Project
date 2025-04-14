@@ -5,6 +5,7 @@ from datetime import datetime
 import pandas as pd
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import os
+from flask import session
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -63,14 +64,21 @@ def admin_login():
         username = request.form['username']
         password = request.form['password']
         if username == 'admin' and password == 'admin123':
-            session['admin'] = True
+            session['admin_logged_in'] = True
             return redirect(url_for('admin'))
         else:
             flash('Invalid credentials', 'danger')
     return render_template('admin_login.html')
 
+@app.route('/admin-logout')
+def admin_logout():
+    session.pop('admin_logged_in', None)
+    return redirect(url_for('admin_login'))
+
 @app.route('/admin')
 def admin():
+    if not session.get('admin_logged_in'):
+        return redirect(url_for('admin_login'))
     feedbacks = Feedback.query.order_by(Feedback.created_at.desc()).all()
     sentiment_counts = {
         'Positive': Feedback.query.filter_by(sentiment='Positive').count(),
@@ -92,6 +100,7 @@ def admin():
         ratings=ratings,
         star_counts=star_counts  #  pass this to template
     )
+    
 
 @app.route('/logout')
 def logout():

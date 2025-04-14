@@ -1,88 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5 text-center">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Admin Dashboard</h2>
+    <a href="{{ url_for('admin_logout') }}" class="btn btn-danger">Logout</a>
+  </div>
 
-<div class="chart-container" style="max-width: 500px; margin: 0 auto;">
-  <canvas id="sentimentChart"></canvas>
-</div>
+  <h4 class="mb-4">Feedback Sentiment Breakdown</h4>
+  <div class="d-flex justify-content-center mb-5">
+    <canvas id="sentimentChart" style="max-width: 400px;"></canvas>
+  </div>
 
-<div class="chart-container" style="max-width: 600px; margin: 0 auto;">
-  <canvas id="ratingChart"></canvas>
-</div>
+  <h4 class="mb-4">Feedback by Star Rating</h4>
+  <div class="d-flex justify-content-center">
+    <canvas id="ratingChart" style="max-width: 600px;"></canvas>
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  const sentimentChart = new Chart(document.getElementById('sentimentChart').getContext('2d'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Positive', 'Neutral', 'Negative'],
-      datasets: [{
-        label: 'Sentiment Distribution',
-        data: [{{ sentiments['Positive'] }}, {{ sentiments['Neutral'] }}, {{ sentiments['Negative'] }}],
-        backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            font: { size: 14 }
-          }
-        },
-        title: {
-          display: true,
-          text: 'Feedback Sentiment Breakdown',
-          font: {
-            size: 18
-          }
-        }
-      }
-    }
-  });
-
-  const ratingChart = new Chart(document.getElementById('ratingChart').getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels: ['1⭐', '2⭐', '3⭐', '4⭐', '5⭐'],
-      datasets: [{
-        label: 'Number of Feedbacks',
-        data: [
-          {{ star_counts[1] }},
-          {{ star_counts[2] }},
-          {{ star_counts[3] }},
-          {{ star_counts[4] }},
-          {{ star_counts[5] }}
-        ],
-        backgroundColor: '#4BC0C0'
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: 'Feedback by Star Rating',
-          font: {
-            size: 18
-          }
-        },
-        legend: {
-          display: false
-        }
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    new Chart(document.getElementById('sentimentChart').getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Positive', 'Neutral', 'Negative'],
+        datasets: [{
+          label: 'Sentiments',
+          data: [{{ sentiments['Positive'] }}, {{ sentiments['Neutral'] }}, {{ sentiments['Negative'] }}],
+          backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
+        }]
       },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            stepSize: 10,
-            font: { size: 14 }
-          }
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' },
+          title: { display: true, text: 'Feedback Sentiment Breakdown' }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('ratingChart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['1⭐', '2⭐', '3⭐', '4⭐', '5⭐'],
+        datasets: [{
+          label: 'Star Ratings',
+          data: [
+            {{ star_counts.get(1, 0) }},
+            {{ star_counts.get(2, 0) }},
+            {{ star_counts.get(3, 0) }},
+            {{ star_counts.get(4, 0) }},
+            {{ star_counts.get(5, 0) }}
+          ],
+          backgroundColor: '#4BC0C0'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Feedback by Star Rating' }
         },
-        x: {
-          ticks: {
-            font: { size: 14 }
+        scales: {
+          y: {
+            beginAtZero: true
           }
         }
       }
-    }
-  });
-</script>
+    });
+  </script>
+</div>
+{% endblock %}
