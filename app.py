@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, desc
 from datetime import datetime
@@ -9,7 +9,7 @@ import os
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vardan:vardan123@localhost/gym_feedback'   # db password vardan123
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vardan:vardan123@localhost/gym_feedback'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -57,16 +57,46 @@ def feedback():
     feedback_list = Feedback.query.order_by(Feedback.created_at.desc()).all()
     return render_template('feedback.html', feedback_list=feedback_list)
 
+@app.route('/admin-login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if username == 'admin' and password == 'admin123':
+            session['admin'] = True
+            return redirect(url_for('admin'))
+        else:
+            flash('Invalid credentials', 'danger')
+    return render_template('admin_login.html')
+
 @app.route('/admin')
 def admin():
-    feedbacks = Feedback.query.all()
+    feedbacks = Feedback.query.order_by(Feedback.created_at.desc()).all()
     sentiment_counts = {
         'Positive': Feedback.query.filter_by(sentiment='Positive').count(),
         'Neutral': Feedback.query.filter_by(sentiment='Neutral').count(),
         'Negative': Feedback.query.filter_by(sentiment='Negative').count(),
     }
+
+    # Star rating counts (1-5 stars)
+    star_counts = {}
+    for i in range(1, 6):
+        star_counts[i] = Feedback.query.filter_by(rating=i).count()
+
     ratings = db.session.query(Feedback.rating, func.count(Feedback.rating)).group_by(Feedback.rating).all()
-    return render_template('admin.html', feedbacks=feedbacks, sentiments=sentiment_counts, ratings=ratings)
+
+    return render_template(
+        'admin.html',
+        feedbacks=feedbacks,
+        sentiments=sentiment_counts,
+        ratings=ratings,
+        star_counts=star_counts  #  pass this to template
+    )
+
+@app.route('/logout')
+def logout():
+    session.pop('admin', None)
+    return redirect(url_for('admin_login'))
 
 if __name__ == '__main__':
     with app.app_context():

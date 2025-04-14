@@ -1,30 +1,88 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container py-5">
-  <h2 class="mb-4">Admin Dashboard</h2>
 
-  <h4>Sentiment Overview</h4>
-  <ul class="list-group mb-4">
-    <li class="list-group-item">😊 Positive: {{ sentiments['Positive'] }}</li>
-    <li class="list-group-item">😐 Neutral: {{ sentiments['Neutral'] }}</li>
-    <li class="list-group-item">😡 Negative: {{ sentiments['Negative'] }}</li>
-  </ul>
-
-  <h4>Star Ratings</h4>
-  <ul class="list-group mb-4">
-    {% for rating, count in ratings %}
-      <li class="list-group-item">{{ rating }} ⭐ - {{ count }} feedback(s)</li>
-    {% endfor %}
-  </ul>
-
-  <h4>All Feedback</h4>
-  {% for fb in feedbacks %}
-  <div class="card mb-3">
-    <div class="card-body">
-      <h5 class="card-title">{{ fb.name }} ({{ fb.rating }}⭐ - {{ fb.sentiment }})</h5>
-      <p class="card-text">{{ fb.message }}</p>
-    </div>
-  </div>
-  {% endfor %}
+<div class="chart-container" style="max-width: 500px; margin: 0 auto;">
+  <canvas id="sentimentChart"></canvas>
 </div>
-{% endblock %}
+
+<div class="chart-container" style="max-width: 600px; margin: 0 auto;">
+  <canvas id="ratingChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const sentimentChart = new Chart(document.getElementById('sentimentChart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Positive', 'Neutral', 'Negative'],
+      datasets: [{
+        label: 'Sentiment Distribution',
+        data: [{{ sentiments['Positive'] }}, {{ sentiments['Neutral'] }}, {{ sentiments['Negative'] }}],
+        backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            font: { size: 14 }
+          }
+        },
+        title: {
+          display: true,
+          text: 'Feedback Sentiment Breakdown',
+          font: {
+            size: 18
+          }
+        }
+      }
+    }
+  });
+
+  const ratingChart = new Chart(document.getElementById('ratingChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['1⭐', '2⭐', '3⭐', '4⭐', '5⭐'],
+      datasets: [{
+        label: 'Number of Feedbacks',
+        data: [
+          {{ star_counts[1] }},
+          {{ star_counts[2] }},
+          {{ star_counts[3] }},
+          {{ star_counts[4] }},
+          {{ star_counts[5] }}
+        ],
+        backgroundColor: '#4BC0C0'
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Feedback by Star Rating',
+          font: {
+            size: 18
+          }
+        },
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 10,
+            font: { size: 14 }
+          }
+        },
+        x: {
+          ticks: {
+            font: { size: 14 }
+          }
+        }
+      }
+    }
+  });
+</script>
