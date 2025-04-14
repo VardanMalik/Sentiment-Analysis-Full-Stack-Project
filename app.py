@@ -9,7 +9,7 @@ import os
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:your_strong_password@localhost/gym_feedback'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vardan:vardan123@localhost/gym_feedback'   # db password vardan123
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
