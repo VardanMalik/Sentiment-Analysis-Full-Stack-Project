@@ -107,7 +107,29 @@ def logout():
     session.pop('admin', None)
     return redirect(url_for('admin_login'))
 
+@app.route('/delete-feedback/<int:feedback_id>', methods=['POST'])
+def delete_feedback(feedback_id):
+    if not session.get('admin_logged_in'):
+        return redirect(url_for('admin_login'))
+    fb = Feedback.query.get_or_404(feedback_id)
+    db.session.delete(fb)
+    db.session.commit()
+    flash('Feedback deleted successfully.', 'success')
+    return redirect(url_for('admin'))
+
+@app.before_request
+def auto_logout_non_admin_routes():
+    # Define safe prefixes that should NOT trigger logout
+    safe_paths = ['/admin', '/admin-logout', '/delete-feedback']
+
+    if session.get('admin_logged_in'):
+        # Check if the current path starts with ANY of the safe admin paths
+        if not any(request.path.startswith(path) for path in safe_paths):
+            session.pop('admin_logged_in', None)
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+
+

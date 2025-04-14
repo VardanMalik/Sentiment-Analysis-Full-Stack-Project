@@ -6,14 +6,31 @@
     <a href="{{ url_for('admin_logout') }}" class="btn btn-danger">Logout</a>
   </div>
 
-  <h4 class="mb-4">Feedback Sentiment Breakdown</h4>
-  <div class="d-flex justify-content-center mb-5">
-    <canvas id="sentimentChart" style="max-width: 400px;"></canvas>
+  <div class="row justify-content-center">
+    <div class="col-md-6 mb-5">
+      <h4 class="mb-3">Feedback Sentiment Breakdown</h4>
+      <canvas id="sentimentChart" style="max-width: 100%;"></canvas>
+    </div>
+    <div class="col-md-6 mb-5">
+      <h4 class="mb-3">Feedback by Star Rating</h4>
+      <canvas id="ratingChart" style="max-width: 100%;"></canvas>
+    </div>
   </div>
 
-  <h4 class="mb-4">Feedback by Star Rating</h4>
-  <div class="d-flex justify-content-center">
-    <canvas id="ratingChart" style="max-width: 600px;"></canvas>
+  <div class="mt-5 text-start">
+    <h4 class="mb-4">All Feedback</h4>
+    {% for fb in feedbacks %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">{{ fb.name }} ({{ fb.rating }}⭐ - {{ fb.sentiment }})</h5>
+        <p class="card-text">{{ fb.message }}</p>
+        <p class="text-muted">Submitted on: {{ fb.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+        <form action="{{ url_for('delete_feedback', feedback_id=fb.id) }}" method="POST" style="display:inline-block">
+          <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this feedback?')">Delete</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
