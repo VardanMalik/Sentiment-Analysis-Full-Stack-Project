@@ -45,7 +45,7 @@ A modern Flask-based gym website that lets users leave feedback and automaticall
 ### 1. Clone this repo
 
 ```bash
-git clone https://github.com/VardanMalik/Sentiment-Analysis-for-targeted-Digital-Marketing-.git
+git clone https://github.com/VardanMalik/Sentiment-Analysis-Full-Stack-Project.git
 cd gym-website
 ```
 
