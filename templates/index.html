@@ -2,8 +2,7 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero text-white text-center d-flex align-items-center justify-content-center"
-  style="background-image: url('{{ url_for('static', filename='images/gym-hero.jpg') }}'); height: 70vh; background-size: cover;">
+<section class="hero text-white text-center d-flex align-items-center justify-content-center" style="background-image: url('{{ url_for('static', filename='images/gym-hero.jpg') }}');">
   <div class="bg-dark bg-opacity-50 p-5 rounded">
     <h1 class="display-4">Welcome to Vardan's Gym</h1>
     <p class="lead">Train smart, feel strong.</p>
@@ -23,14 +22,14 @@
   </div>
 </section>
 
-<!--  Feedback Carousel -->
+<!-- Top Positive Feedback Carousel -->
 <section class="container py-5">
-  <h4 class="text-center mb-4">Top Positive Feedback</h4>
+  <h4 class="text-center mb-4">Top Feedback</h4>
   <div id="feedbackCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       {% for fb in top_feedback %}
       <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
-        <div class="card mx-auto" style="max-width: 600px;">
+        <div class="card mx-auto shadow-sm" style="max-width: 600px;">
           <div class="card-body">
             <h5 class="card-title">{{ fb.name }}</h5>
             <h6 class="card-subtitle text-muted">{{ fb.rating }} ⭐</h6>
@@ -41,105 +40,72 @@
       {% endfor %}
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#feedbackCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
+      <span class="carousel-control-prev-icon"></span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#feedbackCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
+      <span class="carousel-control-next-icon"></span>
     </button>
   </div>
 </section>
 
-<!--  About Section -->
-<section id="about" class="py-5 bg-light">
-  <div class="container text-center">
+<!-- About Section -->
+<section id="about" class="bg-light text-center">
+  <div class="container">
     <h2>About Us</h2>
-    <p class="lead mt-3">At Vardan's Gym, we are dedicated to providing top-notch fitness facilities, personalized
-      training, and a community-driven environment. Our mission is to empower you to achieve your fitness goals with the
-      support of expert trainers and a motivating atmosphere.</p>
+    <p class="lead mt-3">At Vardan's Gym, we are dedicated to providing top-notch fitness facilities, personalized training, and a community-driven environment. Our mission is to empower you to achieve your fitness goals with expert support and motivation.</p>
   </div>
 </section>
 
 <!-- Classes Section -->
-<section id="classes" class="py-5">
-  <div class="container text-center">
+<section id="classes" class="text-center">
+  <div class="container">
     <h2>Our Classes</h2>
     <div class="row mt-4">
-      <!-- Yoga -->
+      {% for class in [
+        {"name": "Yoga", "img": "yoga.jpg", "desc": "Inner peace and flexibility with expert-led yoga sessions.", "schedule": "Mon, Wed, Fri - 6 AM & 7 PM"},
+        {"name": "CrossFit", "img": "crossfit.jpg", "desc": "High-intensity training with cardio and weightlifting.", "schedule": "Tue, Thu - 5 AM & 6 PM"},
+        {"name": "Zumba", "img": "zumba.jpg", "desc": "Fun and energetic Zumba dance classes with music beats.", "schedule": "Sat, Sun - 10 AM"}
+      ] %}
       <div class="col-md-4 mb-4">
         <div class="card h-100">
-          <img src="{{ url_for('static', filename='images/yoga.jpg') }}" class="card-img-top" alt="Yoga">
+          <img src="{{ url_for('static', filename='images/' + class.img) }}" class="card-img-top" alt="{{ class.name }}">
           <div class="card-body">
-            <h5 class="card-title">Yoga</h5>
-            <p class="card-text">Experience inner peace and flexibility with our expert-led yoga classes. Suitable for all levels, focusing on balance and mindfulness.</p>
-            <p class="text-muted"><strong>Schedule:</strong> Mon, Wed, Fri - 6 AM & 7 PM</p>
+            <h5 class="card-title">{{ class.name }}</h5>
+            <p class="card-text">{{ class.desc }}</p>
+            <p class="text-muted"><strong>Schedule:</strong> {{ class.schedule }}</p>
           </div>
         </div>
       </div>
-      <!-- CrossFit -->
-      <div class="col-md-4 mb-4">
-        <div class="card h-100">
-          <img src="{{ url_for('static', filename='images/crossfit.jpg') }}" class="card-img-top" alt="CrossFit">
-          <div class="card-body">
-            <h5 class="card-title">CrossFit</h5>
-            <p class="card-text">Boost your strength and endurance with high-intensity CrossFit. Cardio, weightlifting, and functional training combined.</p>
-            <p class="text-muted"><strong>Schedule:</strong> Tue, Thu - 5 AM & 6 PM</p>
-          </div>
-        </div>
-      </div>
-      <!-- Zumba -->
-      <div class="col-md-4 mb-4">
-        <div class="card h-100">
-          <img src="{{ url_for('static', filename='images/zumba.jpg') }}" class="card-img-top" alt="Zumba">
-          <div class="card-body">
-            <h5 class="card-title">Zumba</h5>
-            <p class="card-text">Get energized with vibrant Zumba dance classes. Burn calories and have fun with Latin and global music beats.</p>
-            <p class="text-muted"><strong>Schedule:</strong> Sat, Sun - 10 AM</p>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
 </section>
 
 <!-- Pricing Section -->
-<section id="pricing" class="py-5 bg-light">
-  <div class="container text-center">
+<section id="pricing" class="bg-light text-center">
+  <div class="container">
     <h2>Pricing Plans</h2>
     <div class="row mt-4">
+      {% for plan in [
+        {"name": "Basic Membership", "desc": "Access gym facilities and group classes.", "price": "$29.99/month"},
+        {"name": "Premium Membership", "desc": "Unlimited gym access, all classes + 2 personal training sessions/month.", "price": "$49.99/month"},
+        {"name": "Drop-In Pass", "desc": "Perfect for visitors. Enjoy a single session.", "price": "$15/session"}
+      ] %}
       <div class="col-md-4 mb-3">
         <div class="card h-100 shadow-sm">
           <div class="card-body">
-            <h4 class="card-title">Basic Membership</h4>
-            <p class="card-text">Access gym facilities and group classes.</p>
-            <p class="text-primary fw-bold">$29.99/month</p>
+            <h4 class="card-title">{{ plan.name }}</h4>
+            <p class="card-text">{{ plan.desc }}</p>
+            <p class="text-primary fw-bold">{{ plan.price }}</p>
           </div>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
-        <div class="card h-100 shadow-sm">
-          <div class="card-body">
-            <h4 class="card-title">Premium Membership</h4>
-            <p class="card-text">Unlimited gym access, all classes + 2 personal training sessions/month.</p>
-            <p class="text-primary fw-bold">$49.99/month</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-3">
-        <div class="card h-100 shadow-sm">
-          <div class="card-body">
-            <h4 class="card-title">Drop-In Pass</h4>
-            <p class="card-text">Perfect for visitors. Enjoy a single session at our gym.</p>
-            <p class="text-primary fw-bold">$15/session</p>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- Contact Us Section -->
+<!-- Contact Section -->
 <section class="contact-section">
   <div class="container">
     <h2 class="text-center mb-4">Contact Us</h2>
@@ -149,9 +115,8 @@
       <p><strong>Address:</strong> 123 Fitness St, Fit City, IN 47401</p>
     </div>
     <div class="map-container">
-      <iframe src="https://maps.google.com/maps?q=Times%20Square,%20NY&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      <iframe src="https://maps.google.com/maps?q=Times%20Square,%20NY&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="400" style="border:0;" allowfullscreen loading="lazy"></iframe>
     </div>
   </div>
 </section>
-
 {% endblock %}

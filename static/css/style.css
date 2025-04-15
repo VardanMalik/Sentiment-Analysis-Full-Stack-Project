@@ -2,20 +2,60 @@
 body, html {
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Poppins', sans-serif;
   scroll-behavior: smooth;
+  background-color: #f4f4f4;
+  color: #333;
 }
 
-/* Hover Animation for Cards */
-.card:hover,
-.class-item:hover,
-.pricing-plan:hover {
-  transform: scale(1.03);
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+/* Navbar */
+.navbar {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.navbar-brand {
+  font-weight: 600;
+}
+.nav-link {
+  font-size: 1rem;
+  margin-left: 1rem;
+}
+.nav-link:hover {
+  color: #f0a500 !important;
 }
 
-/* Circular Rating Chart */
+/* Hero Section */
+.hero {
+  height: 90vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero .bg-dark {
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 600;
+}
+.hero p {
+  font-size: 1.25rem;
+}
+
+/* Buttons */
+.btn-warning {
+  background-color: #f0a500;
+  border: none;
+  transition: 0.3s;
+}
+.btn-warning:hover {
+  background-color: #cf8500;
+}
+
+/* Circle Rating */
 .circle-rating {
   position: relative;
   width: 120px;
@@ -34,302 +74,80 @@ body, html {
   font-weight: bold;
 }
 
-/* Feedback Carousel */
-.carousel-inner {
-  padding: 20px;
-  min-height: 150px;
-}
+/* Carousel */
 .carousel-item {
   transition: transform 0.5s ease-in-out;
 }
 
-/* Contact Section */
-.contact-section {
-  padding: 60px 20px;
-  background: #f9f9f9;
-}
-.contact-section h2 {
-  text-align: center;
-  font-size: 36px;
-  margin-bottom: 40px;
-}
-.contact-info {
-  text-align: center;
-  margin-bottom: 30px;
-}
-.contact-info p {
-  font-size: 16px;
-  margin: 5px 0;
-}
-.map-container {
-  max-width: 100%;
-  height: 400px;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Cards */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Keep existing styles below (unchanged) */
-/* Header and Navigation */
-header {
+/* About, Classes, Pricing, Feedback */
+section {
+  padding: 60px 20px;
+}
+
+.about p,
+.card-text,
+.form-control,
+.text-muted {
+  font-size: 1rem;
+}
+
+.class-item img,
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Contact */
+.contact-section {
   background: #333;
   color: #fff;
-  padding: 20px 0;
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
-.header-scrolled {
-  background-color: rgba(51, 51, 51, 0.9);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-.logo a {
-  color: #fff;
-  font-size: 24px;
-  text-decoration: none;
-  font-weight: bold;
-}
-.nav-links {
-  list-style: none;
-  display: flex;
-}
-.nav-links li {
-  margin-left: 20px;
-}
-.nav-links li a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 16px;
-  transition: color 0.3s ease;
-}
-.nav-links li a:hover {
-  color: #f0a500;
-}
-
-/* Hero Section */
-.hero {
-  background: url('../images/gym-hero.jpg') no-repeat center center/cover;
-  height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.hero-content {
-  text-align: center;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 30px;
-  border-radius: 10px;
-}
-.hero h1 {
-  font-size: 48px;
+.contact-info p {
   margin-bottom: 10px;
-}
-.hero p {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-.btn {
-  background: #f0a500;
-  color: #fff;
-  padding: 12px 25px;
-  text-decoration: none;
-  border-radius: 25px;
-  transition: background 0.3s ease;
-}
-.btn:hover {
-  background: #cf8500;
-}
-
-/* About Section */
-.about {
-  padding: 60px 20px;
-  background: #f9f9f9;
-  text-align: center;
-}
-.about h2 {
-  font-size: 36px;
-  margin-bottom: 20px;
-}
-.about p {
-  font-size: 18px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Classes Section */
-.classes {
-  padding: 60px 20px;
-}
-.classes h2 {
-  text-align: center;
-  font-size: 36px;
-  margin-bottom: 40px;
-}
-.class-list {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-.class-item {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  width: 30%;
-  margin: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  text-align: center;
-}
-.class-item img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-bottom: 15px;
-}
-.class-item h3 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-.class-item p {
-  font-size: 16px;
-}
-
-/* Pricing Section */
-.pricing {
-  padding: 60px 20px;
-  background: #f1f1f1;
-  text-align: center;
-}
-.pricing h2 {
-  font-size: 36px;
-  margin-bottom: 40px;
-}
-.pricing-plans {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-.pricing-plan {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  width: 30%;
-  margin: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-.pricing-plan h3 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-.pricing-plan p {
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-.pricing-plan .price {
-  font-size: 22px;
-  color: #f0a500;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-/* Feedback Section */
-.feedback-section {
-  padding: 60px 20px;
-  background: #f9f9f9;
-}
-.feedback-section h2 {
-  text-align: center;
-  font-size: 36px;
-  margin-bottom: 40px;
-}
-.feedback-form {
-  max-width: 600px;
-  margin: 0 auto 40px;
-  background: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-.form-group {
-  margin-bottom: 20px;
-}
-.form-group label {
-  display: block;
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
-}
-.feedback-list {
-  max-width: 800px;
-  margin: 0 auto;
-}
-.feedback-item {
-  background: #fff;
-  padding: 20px;
-  margin-bottom: 15px;
-  border-left: 5px solid #f0a500;
-  border-radius: 5px;
-}
-.feedback-item h4 {
-  margin: 0 0 10px;
-}
-.flashes {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 20px;
-  text-align: center;
-}
-.flash {
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  display: inline-block;
-}
-.flash.success {
-  background: #d4edda;
-  color: #155724;
-}
-.flash.danger {
-  background: #f8d7da;
-  color: #721c24;
 }
 
 /* Footer */
 footer {
-  background: #333;
-  color: #fff;
+  background-color: #111;
+  color: #aaa;
   text-align: center;
-  padding: 20px 0;
-  margin-top: 40px;
+}
+footer a {
+  color: #aaa;
+  transition: color 0.3s;
+}
+footer a:hover {
+  color: #f0a500;
+}
+
+/* Alerts */
+.alert {
+  border-radius: 8px;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .class-list, .pricing-plans {
-    flex-direction: column;
-    align-items: center;
+  .navbar-brand {
+    font-size: 1.5rem;
   }
-  .class-item, .pricing-plan {
-    width: 80%;
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  .card-img-top {
+    height: 150px;
+  }
+  .nav-link {
+    margin-left: 0;
+    padding: 0.5rem 0;
   }
 }

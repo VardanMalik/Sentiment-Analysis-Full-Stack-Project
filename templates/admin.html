@@ -1,26 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container py-5 text-center">
+<div class="container py-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">Admin Dashboard</h2>
-    <a href="{{ url_for('admin_logout') }}" class="btn btn-danger">Logout</a>
+    <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-danger">Logout</a>
   </div>
 
-  <div class="row justify-content-center">
-    <div class="col-md-6 mb-5">
-      <h4 class="mb-3">Feedback Sentiment Breakdown</h4>
-      <canvas id="sentimentChart" style="max-width: 100%;"></canvas>
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Sentiment Breakdown</h5>
+          <canvas id="sentimentChart"></canvas>
+        </div>
+      </div>
     </div>
-    <div class="col-md-6 mb-5">
-      <h4 class="mb-3">Feedback by Star Rating</h4>
-      <canvas id="ratingChart" style="max-width: 100%;"></canvas>
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Ratings Overview</h5>
+          <canvas id="ratingChart"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="mt-5 text-start">
-    <h4 class="mb-4"> Total Feedbacks- {{ total_feedback }}</h4>
+  <div class="mt-5">
+    <h4>Total Feedbacks: {{ total_feedback }}</h4>
     {% for fb in feedbacks %}
-    <div class="card mb-3">
+    <div class="card mb-3 shadow-sm">
       <div class="card-body">
         <h5 class="card-title">{{ fb.name }} ({{ fb.rating }}⭐ - {{ fb.sentiment }})</h5>
         <p class="card-text">{{ fb.message }}</p>
@@ -40,13 +48,11 @@
       data: {
         labels: ['Positive', 'Neutral', 'Negative'],
         datasets: [{
-          label: 'Sentiments',
           data: [{{ sentiments['Positive'] }}, {{ sentiments['Neutral'] }}, {{ sentiments['Negative'] }}],
-          backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
+          backgroundColor: ['#198754', '#ffc107', '#dc3545'],
         }]
       },
       options: {
-        responsive: true,
         plugins: {
           legend: { position: 'bottom' },
           title: { display: true, text: 'Feedback Sentiment Breakdown' }
@@ -59,7 +65,7 @@
       data: {
         labels: ['1⭐', '2⭐', '3⭐', '4⭐', '5⭐'],
         datasets: [{
-          label: 'Star Ratings',
+          label: 'Rating Count',
           data: [
             {{ star_counts.get(1, 0) }},
             {{ star_counts.get(2, 0) }},
@@ -67,14 +73,13 @@
             {{ star_counts.get(4, 0) }},
             {{ star_counts.get(5, 0) }}
           ],
-          backgroundColor: '#4BC0C0'
+          backgroundColor: '#0d6efd'
         }]
       },
       options: {
-        responsive: true,
         plugins: {
-          legend: { display: false },
-          title: { display: true, text: 'Feedback by Star Rating' }
+          title: { display: true, text: 'Feedback by Star Rating' },
+          legend: { display: false }
         },
         scales: {
           y: {

@@ -11,16 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Initialize Carousel (if using Bootstrap)
+  // Carousel (Bootstrap)
   const feedbackCarousel = document.querySelector('#feedbackCarousel');
   if (feedbackCarousel) {
-    const carousel = new bootstrap.Carousel(feedbackCarousel, {
+    new bootstrap.Carousel(feedbackCarousel, {
       interval: 4000,
       ride: 'carousel'
     });
   }
 
-  // Circular Rating Chart
+  // Circular Rating Animation
   const ratingCircle = document.querySelector('.circle-rating');
   if (ratingCircle) {
     const value = parseFloat(ratingCircle.dataset.rating);
@@ -31,6 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const offset = circumference - (percentage / 100) * circumference;
 
     circle.style.strokeDasharray = `${circumference} ${circumference}`;
-    circle.style.strokeDashoffset = offset;
+    circle.style.strokeDashoffset = circumference;
+
+    setTimeout(() => {
+      circle.style.transition = 'stroke-dashoffset 1s ease';
+      circle.style.strokeDashoffset = offset;
+    }, 100);
   }
 });
