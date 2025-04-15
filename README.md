@@ -80,7 +80,19 @@ python3
 CREATE DATABASE gym_feedback;
 ```
 
-### 5. Run the app
+### 5. Check if MariaDB is running:
+
+```bash
+brew services list
+```
+
+> _If it’s not running just do:_
+
+```bash
+brew services start mariadb
+```
+
+### 6. Run the app
 
 ```bash
 python3 app.py
