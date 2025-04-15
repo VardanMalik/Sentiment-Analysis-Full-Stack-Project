@@ -8,9 +8,9 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         <div class="alert-messages text-center">
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }} mx-auto" style="max-width: 600px;">{{ message }}</div>
-        {% endfor %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }} mx-auto" style="max-width: 600px;">{{ message }}</div>
+          {% endfor %}
         </div>
       {% endif %}
     {% endwith %}
@@ -29,11 +29,13 @@
         <textarea id="message" name="message" class="form-control" rows="4" required></textarea>
       </div>
       <div class="mb-4">
-        <label class="form-label">Star Rating</label><br>
-        <div class="form-check form-check-inline">
+        <label class="form-label">Star Rating</label>
+        <div class="d-flex gap-2 align-items-center flex-wrap">
           {% for star in range(1, 6) %}
-            <input class="form-check-input" type="radio" id="star{{ star }}" name="rating" value="{{ star }}" required>
-            <label class="form-check-label me-3" for="star{{ star }}">{{ star }}⭐</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="rating{{ star }}" name="rating" value="{{ star }}" required>
+              <label class="form-check-label" for="rating{{ star }}">{{ star }}⭐</label>
+            </div>
           {% endfor %}
         </div>
       </div>
@@ -47,10 +49,14 @@
       <div class="col-lg-8">
         {% for feedback in feedback_list %}
         <div class="card mb-3 shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">{{ feedback.name }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{ feedback.rating }} ⭐ - {{ feedback.sentiment }}</h6>
-            <p class="card-text">{{ feedback.message }}</p>
+          <div class="card-body d-flex align-items-start">
+            <img src="https://api.dicebear.com/7.x/thumbs/svg?seed={{ feedback.name }}" alt="avatar" class="rounded-circle me-3" width="50" height="50">
+            <div class="flex-grow-1">
+              <h5 class="card-title mb-1">{{ feedback.name }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ feedback.rating }} ⭐ - {{ feedback.sentiment }}</h6>
+              <p class="card-text">{{ feedback.message }}</p>
+              <p class="text-end text-muted small mb-0">{{ feedback.created_at.strftime('%Y-%m-%d') }}</p>
+            </div>
           </div>
         </div>
         {% else %}

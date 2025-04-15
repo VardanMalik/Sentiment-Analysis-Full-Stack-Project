@@ -30,8 +30,12 @@ class Feedback(db.Model):
 @app.route('/')
 def index():
     avg_rating = db.session.query(func.avg(Feedback.rating)).scalar()
-    top_feedback = Feedback.query.filter_by(sentiment='Positive').order_by(desc(Feedback.rating)).limit(3).all()
-    return render_template('index.html', avg_rating=round(avg_rating or 0, 1), top_feedback=top_feedback)
+    all_positive_feedback = Feedback.query.filter_by(sentiment='Positive').order_by(desc(Feedback.created_at)).all()
+    return render_template(
+        'index.html',
+        avg_rating=round(avg_rating or 0, 1),
+        all_positive_feedback=all_positive_feedback
+    )
 
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
